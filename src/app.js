@@ -2,7 +2,7 @@ import express from "express";
 import db from './utils/database.js';
 import User from "./models/users.model.js";
 import "dotenv/config";
-
+import cors from 'cors';
 User;
 
 const PORT = process.env.PORT ?? 8000;
@@ -17,6 +17,8 @@ db.sync()
 const app = express();
 
 app.use(express.json());
+
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.send("OK");
