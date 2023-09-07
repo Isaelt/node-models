@@ -3,6 +3,8 @@ import db from './utils/database.js';
 import User from "./models/users.model.js";
 import "dotenv/config";
 import cors from 'cors';
+import userRoutes from './components/users/user.routes.js'
+
 User;
 
 const PORT = process.env.PORT ?? 8000;
@@ -20,67 +22,61 @@ app.use(express.json());
 
 app.use(cors());
 
+app.use(userRoutes)
+
 app.get('/', (req, res) => {
     res.send("OK");
 });
 
-app.post('/users', async (req, res) => {
-    try {
-        const { body } =req;
+// app.post('/users', async (req, res) => {
+//     try {
+//         const { body } =req;
     
-        const user = await User.create(body);
-        res.status(201).json(user);
+//         const user = await User.create(body);
+//         res.status(201).json(user);
         
-    } catch (error) {
-        res.status(400).json(error)
-    }
-});
+//     } catch (error) {
+//         res.status(400).json(error)
+//     }
+// });
 
-app.get('/users', async (req, res) => {
-    try {
-        const users = await User.findAll()
-        res.json(users)
-    } catch (error) {
-        res.status(400).json(error)
-    }
-})
 
-app.get('/users/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const user = await User.findByPk(id);
-        res.json(user)
-    } catch (error) {
-        res.status(400).json(error)
-    }
-})
+// app.get('/users/:id', async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const user = await User.findByPk(id);
+//         res.json(user)
+//     } catch (error) {
+//         res.status(400).json(error)
+//     }
+// })
 
-app.put('/users/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { body } = req;
+// app.put('/users/:id', async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const { body } = req;
 
-        const user = await User.update(body, {
-            where: { id }
-        });
-        res.json(user);
-    } catch (error) {
-        res.status(400).json(error);
-    }
-})
+//         const user = await User.update(body, {
+//             where: { id }
+//         });
+//         res.json(user);
+//     } catch (error) {
+//         res.status(400).json(error);
+//     }
+// })
 
-app.delete('/users/:id', async (req, res) => {
-    try {
-      const { id } = req.params;
+// app.delete('/users/:id', async (req, res) => {
+//     try {
+//       const { id } = req.params;
   
-      await User.destroy({
-        where: {id}
-      });
-      res.status(204).end() // termina con la petición
-    } catch (error) {
-       res.status(400).json(error);
-      }
-})
+//       await User.destroy({
+//         where: {id}
+//       });
+//       res.status(204).end() // termina con la petición
+//     } catch (error) {
+//        res.status(400).json(error);
+//       }
+// })
 
 app.listen(PORT, () => {
     console.log(`servidor escuchado en el puerto ${PORT}`)
